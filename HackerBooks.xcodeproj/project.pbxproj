@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		87EF32631D22D30000C859AE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87EF32621D22D30000C859AE /* AppDelegate.swift */; };
 		87EF32651D22D30000C859AE /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87EF32641D22D30000C859AE /* ViewController.swift */; };
-		87EF32681D22D30000C859AE /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 87EF32661D22D30000C859AE /* Main.storyboard */; };
 		87EF326A1D22D30000C859AE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 87EF32691D22D30000C859AE /* Assets.xcassets */; };
 		87EF326D1D22D30000C859AE /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 87EF326B1D22D30000C859AE /* LaunchScreen.storyboard */; };
 		87EF32781D22D30000C859AE /* HackerBooksTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87EF32771D22D30000C859AE /* HackerBooksTests.swift */; };
@@ -37,7 +36,6 @@
 		87EF325F1D22D30000C859AE /* HackerBooks.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HackerBooks.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		87EF32621D22D30000C859AE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		87EF32641D22D30000C859AE /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		87EF32671D22D30000C859AE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		87EF32691D22D30000C859AE /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		87EF326C1D22D30000C859AE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		87EF326E1D22D30000C859AE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -99,7 +97,6 @@
 			children = (
 				87EF32621D22D30000C859AE /* AppDelegate.swift */,
 				87EF32641D22D30000C859AE /* ViewController.swift */,
-				87EF32661D22D30000C859AE /* Main.storyboard */,
 				87EF32691D22D30000C859AE /* Assets.xcassets */,
 				87EF326B1D22D30000C859AE /* LaunchScreen.storyboard */,
 				87EF326E1D22D30000C859AE /* Info.plist */,
@@ -231,7 +228,6 @@
 			files = (
 				87EF326D1D22D30000C859AE /* LaunchScreen.storyboard in Resources */,
 				87EF326A1D22D30000C859AE /* Assets.xcassets in Resources */,
-				87EF32681D22D30000C859AE /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -293,14 +289,6 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		87EF32661D22D30000C859AE /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				87EF32671D22D30000C859AE /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		87EF326B1D22D30000C859AE /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -484,6 +472,7 @@
 				87EF32891D22D30000C859AE /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		87EF328A1D22D30000C859AE /* Build configuration list for PBXNativeTarget "HackerBooksTests" */ = {
 			isa = XCConfigurationList;
@@ -492,6 +481,7 @@
 				87EF328C1D22D30000C859AE /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		87EF328D1D22D30000C859AE /* Build configuration list for PBXNativeTarget "HackerBooksUITests" */ = {
 			isa = XCConfigurationList;
@@ -500,6 +490,7 @@
 				87EF328F1D22D30000C859AE /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
