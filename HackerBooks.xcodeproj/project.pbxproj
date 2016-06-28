@@ -12,6 +12,8 @@
 		87EF326D1D22D30000C859AE /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 87EF326B1D22D30000C859AE /* LaunchScreen.storyboard */; };
 		87EF32781D22D30000C859AE /* HackerBooksTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87EF32771D22D30000C859AE /* HackerBooksTests.swift */; };
 		87EF32831D22D30000C859AE /* HackerBooksUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87EF32821D22D30000C859AE /* HackerBooksUITests.swift */; };
+		87EF32921D22D68900C859AE /* Book.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87EF32911D22D68900C859AE /* Book.swift */; };
+		87EF32941D22D8DC00C859AE /* Library.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87EF32931D22D8DC00C859AE /* Library.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -43,6 +45,8 @@
 		87EF327E1D22D30000C859AE /* HackerBooksUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HackerBooksUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		87EF32821D22D30000C859AE /* HackerBooksUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HackerBooksUITests.swift; sourceTree = "<group>"; };
 		87EF32841D22D30000C859AE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		87EF32911D22D68900C859AE /* Book.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Book.swift; sourceTree = "<group>"; };
+		87EF32931D22D8DC00C859AE /* Library.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Library.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -93,6 +97,7 @@
 		87EF32611D22D30000C859AE /* HackerBooks */ = {
 			isa = PBXGroup;
 			children = (
+				87EF32901D22D67500C859AE /* Model */,
 				87EF32621D22D30000C859AE /* AppDelegate.swift */,
 				87EF32691D22D30000C859AE /* Assets.xcassets */,
 				87EF326B1D22D30000C859AE /* LaunchScreen.storyboard */,
@@ -117,6 +122,15 @@
 				87EF32841D22D30000C859AE /* Info.plist */,
 			);
 			path = HackerBooksUITests;
+			sourceTree = "<group>";
+		};
+		87EF32901D22D67500C859AE /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				87EF32911D22D68900C859AE /* Book.swift */,
+				87EF32931D22D8DC00C859AE /* Library.swift */,
+			);
+			name = Model;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -249,7 +263,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				87EF32921D22D68900C859AE /* Book.swift in Sources */,
 				87EF32631D22D30000C859AE /* AppDelegate.swift in Sources */,
+				87EF32941D22D8DC00C859AE /* Library.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
