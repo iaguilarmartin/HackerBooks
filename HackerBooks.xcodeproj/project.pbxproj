@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		87D85E1A1D24256A0003DF29 /* JSONManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87D85E191D24256A0003DF29 /* JSONManager.swift */; };
 		87EF32631D22D30000C859AE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87EF32621D22D30000C859AE /* AppDelegate.swift */; };
 		87EF326A1D22D30000C859AE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 87EF32691D22D30000C859AE /* Assets.xcassets */; };
 		87EF326D1D22D30000C859AE /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 87EF326B1D22D30000C859AE /* LaunchScreen.storyboard */; };
@@ -14,6 +15,8 @@
 		87EF32831D22D30000C859AE /* HackerBooksUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87EF32821D22D30000C859AE /* HackerBooksUITests.swift */; };
 		87EF32921D22D68900C859AE /* Book.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87EF32911D22D68900C859AE /* Book.swift */; };
 		87EF32941D22D8DC00C859AE /* Library.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87EF32931D22D8DC00C859AE /* Library.swift */; };
+		87EF32961D22DCBF00C859AE /* DataDownloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87EF32951D22DCBF00C859AE /* DataDownloader.swift */; };
+		87EF32981D22DEF600C859AE /* ApplicationErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87EF32971D22DEF600C859AE /* ApplicationErrors.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -34,6 +37,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		87D85E191D24256A0003DF29 /* JSONManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSONManager.swift; sourceTree = "<group>"; };
 		87EF325F1D22D30000C859AE /* HackerBooks.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HackerBooks.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		87EF32621D22D30000C859AE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		87EF32691D22D30000C859AE /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -47,6 +51,8 @@
 		87EF32841D22D30000C859AE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		87EF32911D22D68900C859AE /* Book.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Book.swift; sourceTree = "<group>"; };
 		87EF32931D22D8DC00C859AE /* Library.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Library.swift; sourceTree = "<group>"; };
+		87EF32951D22DCBF00C859AE /* DataDownloader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataDownloader.swift; sourceTree = "<group>"; };
+		87EF32971D22DEF600C859AE /* ApplicationErrors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ApplicationErrors.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -129,6 +135,9 @@
 			children = (
 				87EF32911D22D68900C859AE /* Book.swift */,
 				87EF32931D22D8DC00C859AE /* Library.swift */,
+				87EF32951D22DCBF00C859AE /* DataDownloader.swift */,
+				87EF32971D22DEF600C859AE /* ApplicationErrors.swift */,
+				87D85E191D24256A0003DF29 /* JSONManager.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -263,7 +272,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				87EF32961D22DCBF00C859AE /* DataDownloader.swift in Sources */,
+				87D85E1A1D24256A0003DF29 /* JSONManager.swift in Sources */,
 				87EF32921D22D68900C859AE /* Book.swift in Sources */,
+				87EF32981D22DEF600C859AE /* ApplicationErrors.swift in Sources */,
 				87EF32631D22D30000C859AE /* AppDelegate.swift in Sources */,
 				87EF32941D22D8DC00C859AE /* Library.swift in Sources */,
 			);
