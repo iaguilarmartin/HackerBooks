@@ -15,7 +15,23 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
-        // Override point for customization after application launch.
+        
+        let library: Library?
+        
+        do {
+            if let json = try DataDownloader.loadApplicationData() {
+                library = Library(json: json)
+            }
+        } catch ApplicationErrors.invalidJSONURL {
+            print("ERROR: La URL del JSON de datos no es válida")
+            
+        } catch ApplicationErrors.cantSaveJSONFile {
+            print("ERROR: Error al intentar guardar en local el JSON de datos")
+            
+        } catch {
+            print("ERROR: Error desconocido al cargar el JSON de datos")
+        }
+        
         return true
     }
 
