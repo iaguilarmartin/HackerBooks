@@ -22,9 +22,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 
                 window = UIWindow(frame: UIScreen.mainScreen().bounds)
                 
-                let vc = LibraryViewController(model: library)
+                let libraryVC = LibraryViewController(model: library)
+                let libraryNav = UINavigationController(rootViewController: libraryVC)
                 
-                window?.rootViewController = vc
+                window?.rootViewController = libraryNav
                 window?.makeKeyAndVisible()
                 
             } else {
