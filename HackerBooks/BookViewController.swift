@@ -10,14 +10,14 @@ import UIKit
 
 class BookViewController: UIViewController, LibraryViewControllerDelegate, UISplitViewControllerDelegate {
 
-    var model: Book
+    var model: Book?
     
     @IBOutlet weak var bookImage: UIImageView!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var authorsLabel: UILabel!
     @IBOutlet weak var tagsLabel: UILabel!
     
-    init(model: Book) {
+    init(model: Book?) {
         self.model = model
         super.init(nibName: nil, bundle: nil)
     }
@@ -40,19 +40,27 @@ class BookViewController: UIViewController, LibraryViewControllerDelegate, UISpl
 
     @IBAction func readBook(sender: AnyObject) {
         
-        let pdfVC = PDFViewController(model: self.model)
-        self.navigationController?.pushViewController(pdfVC, animated: true)
+        if let book = self.model {
+            let pdfVC = PDFViewController(model: book)
+            self.navigationController?.pushViewController(pdfVC, animated: true)
+        }
     }
     
     func updateView() {
-        self.title = model.title
-        
-        self.titleLabel.text = self.model.title
-        self.authorsLabel.text = self.model.authors.joinWithSeparator(", ")
-        self.tagsLabel.text = self.model.tags.joinWithSeparator(", ")
-        
-        if let maybeImage = try? DataDownloader.downloadExternalFileFromURL(self.model.image), image = maybeImage {
-            self.bookImage.image  = UIImage(data: image)
+        if let book = self.model {
+            self.title = book.title
+            self.view.hidden = false
+            
+            self.titleLabel.text = book.title
+            self.authorsLabel.text = book.authors.joinWithSeparator(", ")
+            self.tagsLabel.text = book.tags.joinWithSeparator(", ")
+            
+            if let maybeImage = try? DataDownloader.downloadExternalFileFromURL(book.image), image = maybeImage {
+                self.bookImage.image  = UIImage(data: image)
+            }
+        } else {
+            self.title = "Ningún libro seleccionado"
+            self.view.hidden = true
         }
     }
     
