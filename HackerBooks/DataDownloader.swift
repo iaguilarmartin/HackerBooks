@@ -14,9 +14,9 @@ struct DataDownloader {
     static private let appInitializedKey = "app_initialized"
     static private let localJSONFileName = "library.json"
     
-    static func loadApplicationData() throws ->  NSData? {
-        
-        let documentsPath = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0]
+    static let documentsPath = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0]
+    
+    static func downloadApplicationData() throws ->  NSData? {
         let localJSONFilePath = NSURL(fileURLWithPath: documentsPath, isDirectory: true).URLByAppendingPathComponent(localJSONFileName)
         
         let userDefaults = NSUserDefaults.standardUserDefaults()
@@ -39,6 +39,23 @@ struct DataDownloader {
         }
         
         return NSData(contentsOfURL: localJSONFilePath)
+    }
+    
+    static func downloadExternalFileFromURL(url: NSURL) throws -> NSData? {
+        guard let fileName = url.lastPathComponent else {
+            throw ApplicationErrors.wrongFileName
+        }
+        
+        let localFilePath = NSURL(fileURLWithPath: documentsPath, isDirectory: true).URLByAppendingPathComponent(fileName)
+        
+        guard let localData = NSData(contentsOfURL: localFilePath) else {
+            
+            let remoteData = NSData(contentsOfURL: url)
+            remoteData?.writeToURL(localFilePath, atomically: false)
+            return remoteData
+        }
+        
+        return localData
     }
 }
 

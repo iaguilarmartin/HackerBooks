@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		87D460471D2521930013B321 /* LibraryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87D460461D2521930013B321 /* LibraryViewController.swift */; };
 		87D85E1A1D24256A0003DF29 /* JSONManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87D85E191D24256A0003DF29 /* JSONManager.swift */; };
 		87EF32631D22D30000C859AE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87EF32621D22D30000C859AE /* AppDelegate.swift */; };
 		87EF326A1D22D30000C859AE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 87EF32691D22D30000C859AE /* Assets.xcassets */; };
@@ -37,6 +38,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		87D460461D2521930013B321 /* LibraryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LibraryViewController.swift; sourceTree = "<group>"; };
 		87D85E191D24256A0003DF29 /* JSONManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSONManager.swift; sourceTree = "<group>"; };
 		87EF325F1D22D30000C859AE /* HackerBooks.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HackerBooks.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		87EF32621D22D30000C859AE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -80,6 +82,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		87D460451D2520310013B321 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				87D460461D2521930013B321 /* LibraryViewController.swift */,
+			);
+			name = Controllers;
+			sourceTree = "<group>";
+		};
 		87EF32561D22D30000C859AE = {
 			isa = PBXGroup;
 			children = (
@@ -103,7 +113,8 @@
 		87EF32611D22D30000C859AE /* HackerBooks */ = {
 			isa = PBXGroup;
 			children = (
-				87EF32901D22D67500C859AE /* Model */,
+				87D460451D2520310013B321 /* Controllers */,
+				87EF32901D22D67500C859AE /* Models */,
 				87EF32621D22D30000C859AE /* AppDelegate.swift */,
 				87EF32691D22D30000C859AE /* Assets.xcassets */,
 				87EF326B1D22D30000C859AE /* LaunchScreen.storyboard */,
@@ -130,7 +141,7 @@
 			path = HackerBooksUITests;
 			sourceTree = "<group>";
 		};
-		87EF32901D22D67500C859AE /* Model */ = {
+		87EF32901D22D67500C859AE /* Models */ = {
 			isa = PBXGroup;
 			children = (
 				87EF32911D22D68900C859AE /* Book.swift */,
@@ -139,7 +150,7 @@
 				87EF32971D22DEF600C859AE /* ApplicationErrors.swift */,
 				87D85E191D24256A0003DF29 /* JSONManager.swift */,
 			);
-			name = Model;
+			name = Models;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -276,6 +287,7 @@
 				87D85E1A1D24256A0003DF29 /* JSONManager.swift in Sources */,
 				87EF32921D22D68900C859AE /* Book.swift in Sources */,
 				87EF32981D22DEF600C859AE /* ApplicationErrors.swift in Sources */,
+				87D460471D2521930013B321 /* LibraryViewController.swift in Sources */,
 				87EF32631D22D30000C859AE /* AppDelegate.swift in Sources */,
 				87EF32941D22D8DC00C859AE /* Library.swift in Sources */,
 			);

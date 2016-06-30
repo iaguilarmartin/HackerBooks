@@ -16,20 +16,28 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         
-        let library: Library?
-        
         do {
-            if let json = try DataDownloader.loadApplicationData() {
-                library = Library(json: json)
+            if let json = try DataDownloader.downloadApplicationData() {
+                let library = Library(json: json)
+                
+                window = UIWindow(frame: UIScreen.mainScreen().bounds)
+                
+                let vc = LibraryViewController(model: library)
+                
+                window?.rootViewController = vc
+                window?.makeKeyAndVisible()
+                
+            } else {
+                fatalError("ERROR: Unable to load application data")
             }
         } catch ApplicationErrors.invalidJSONURL {
-            print("ERROR: La URL del JSON de datos no es válida")
+            print("ERROR: Invalid JSON URL")
             
         } catch ApplicationErrors.cantSaveJSONFile {
-            print("ERROR: Error al intentar guardar en local el JSON de datos")
+            print("ERROR: While trying to save JSON on documents folder")
             
         } catch {
-            print("ERROR: Error desconocido al cargar el JSON de datos")
+            print("ERROR: Unknown error")
         }
         
         return true
