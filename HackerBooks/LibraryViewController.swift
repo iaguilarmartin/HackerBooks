@@ -62,4 +62,11 @@ class LibraryViewController: UITableViewController {
         return cell!
     }
     
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        let tagName = self.model.nameOfTagAt(index: indexPath.section)
+        if let book = self.model.getBookFromTag(tagName, atIndex: indexPath.row) {
+            let bookVC = BookViewController(model: book)
+            self.navigationController?.pushViewController(bookVC, animated: true)
+        }
+    }
 }
