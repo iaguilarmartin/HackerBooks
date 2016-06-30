@@ -8,11 +8,15 @@
 
 import UIKit
 
-class LibraryViewController: UITableViewController {
+let selectedBookChanged = "SelectedBookChangedNotification"
+let selectedBookKey = "book"
+
+class LibraryViewController: UITableViewController, LibraryViewControllerDelegate {
 
     let bookCellId = "BookCell"
     
     let model: Library
+    var delegate: LibraryViewControllerDelegate?
     
     init(model: Library) {
         self.model = model
@@ -65,8 +69,27 @@ class LibraryViewController: UITableViewController {
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         let tagName = self.model.nameOfTagAt(index: indexPath.section)
         if let book = self.model.getBookFromTag(tagName, atIndex: indexPath.row) {
-            let bookVC = BookViewController(model: book)
-            self.navigationController?.pushViewController(bookVC, animated: true)
+            if UIDevice.currentDevice().userInterfaceIdiom == .Pad {
+                self.delegate?.libraryViewController(self, didSelectBook: book)
+            } else {
+                let bookVC = BookViewController(model: book)
+                self.navigationController?.pushViewController(bookVC, animated: true)
+            }
+            
+            let notif = NSNotification(name: selectedBookChanged, object: self, userInfo: [selectedBookKey: book])
+            let notifCenter = NSNotificationCenter.defaultCenter()
+            notifCenter.postNotification(notif)
         }
     }
+    
+    func libraryViewController(libraryVC: LibraryViewController, didSelectBook book: Book) {
+        let bookVC = BookViewController(model: book)
+        self.navigationController?.pushViewController(bookVC, animated: true)
+    }
+}
+
+protocol LibraryViewControllerDelegate {
+    
+    func libraryViewController(libraryVC: LibraryViewController, didSelectBook book: Book)
+    
 }
