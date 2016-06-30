@@ -43,6 +43,8 @@ class Library {
                     }
                 }
             }
+            
+            sort()
         }
     }
     
@@ -64,5 +66,15 @@ class Library {
     
     func getBookFromTag(tag: String, atIndex i: Int) -> Book? {
         return dictionary[tag]?[i]
+    }
+    
+    func sort() {
+        tags.sortInPlace()
+        
+        for tag in self.tags {
+            dictionary[tag]?.sortInPlace({ (book1, book2) -> Bool in
+                return book1.title < book2.title
+            })
+        }
     }
 }
