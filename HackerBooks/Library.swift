@@ -31,9 +31,38 @@ class Library {
                     if let image = NSURL(string: imageURL), document = NSURL(string: docURL) {
                         let book = Book(title: title, authors: authors, tags: tags, image: image, document: document)
                         books.append(book)
+                        
+                        for each in tags {
+                            if self.tags.indexOf(each) == nil {
+                                self.tags.append(each)
+                                dictionary[each] = [book]
+                            } else {
+                                dictionary[each]?.append(book)
+                            }
+                        }
                     }
                 }
             }
         }
+    }
+    
+    func numberOfTags() -> Int {
+        return tags.count
+    }
+    
+    func numberOfBookFromTag(tag: String) -> Int {
+        guard let count = dictionary[tag]?.count else {
+            return 0
+        }
+        
+        return count
+    }
+    
+    func nameOfTagAt(index i: Int) -> String {
+        return tags[i]
+    }
+    
+    func getBookFromTag(tag: String, atIndex i: Int) -> Book? {
+        return dictionary[tag]?[i]
     }
 }

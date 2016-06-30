@@ -14,4 +14,5 @@ enum ApplicationErrors : ErrorType {
     case cantSaveJSONFile
     case wrongJSONData
     case unrecognizedJSONData
+    case wrongFileName
 }
