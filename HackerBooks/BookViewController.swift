@@ -8,9 +8,9 @@
 
 import UIKit
 
-class BookViewController: UIViewController {
+class BookViewController: UIViewController, LibraryViewControllerDelegate, UISplitViewControllerDelegate {
 
-    let model: Book
+    var model: Book
     
     @IBOutlet weak var bookImage: UIImageView!
     @IBOutlet weak var titleLabel: UILabel!
@@ -20,8 +20,6 @@ class BookViewController: UIViewController {
     init(model: Book) {
         self.model = model
         super.init(nibName: nil, bundle: nil)
-        
-        self.title = model.title
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -29,12 +27,10 @@ class BookViewController: UIViewController {
         
         self.edgesForExtendedLayout = .None
         
-        setTextValue(self.titleLabel, text: self.model.title)
-        setTextValue(self.authorsLabel, text: self.model.authors.joinWithSeparator(", "))
-        setTextValue(self.tagsLabel, text: self.model.tags.joinWithSeparator(", "))
+        updateView()
         
-        if let maybeImage = try? DataDownloader.downloadExternalFileFromURL(self.model.image), image = maybeImage {
-            self.bookImage.image  = UIImage(data: image)
+        if self.splitViewController?.displayMode == .PrimaryHidden {
+            self.navigationItem.rightBarButtonItem = self.splitViewController?.displayModeButtonItem()
         }
     }
     
@@ -48,9 +44,32 @@ class BookViewController: UIViewController {
         self.navigationController?.pushViewController(pdfVC, animated: true)
     }
     
-    func setTextValue(label: UILabel, text: String) {
-        label.text = text
-        label.numberOfLines = 0;
-        label.sizeToFit()
+    func updateView() {
+        self.title = model.title
+        
+        self.titleLabel.text = self.model.title
+        self.authorsLabel.text = self.model.authors.joinWithSeparator(", ")
+        self.tagsLabel.text = self.model.tags.joinWithSeparator(", ")
+        
+        if let maybeImage = try? DataDownloader.downloadExternalFileFromURL(self.model.image), image = maybeImage {
+            self.bookImage.image  = UIImage(data: image)
+        }
+    }
+    
+    //MARK: - LibraryViewControllerDelegate
+    func libraryViewController(libraryVC: LibraryViewController, didSelectBook book: Book) {
+        self.model = book
+        updateView()
+    }
+    
+    //MARK: - UISplitViewControllerDelegate
+    func splitViewController(svc: UISplitViewController, willChangeToDisplayMode displayMode: UISplitViewControllerDisplayMode) {
+        
+        if displayMode == .PrimaryHidden {
+            self.navigationItem.rightBarButtonItem = self.splitViewController?.displayModeButtonItem()
+        } else if displayMode == .AllVisible {
+            self.navigationItem.rightBarButtonItem = nil
+        }
+        
     }
 }
