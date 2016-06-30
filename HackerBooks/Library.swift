@@ -11,7 +11,6 @@ import Foundation
 class Library {
     typealias BooksArray = [Book]
     
-    var books = BooksArray()
     var tags = [String]()
     var dictionary = [String: BooksArray]()
     
@@ -30,8 +29,7 @@ class Library {
                     
                     if let image = NSURL(string: imageURL), document = NSURL(string: docURL) {
                         let book = Book(title: title, authors: authors, tags: tags, image: image, document: document)
-                        books.append(book)
-                        
+
                         for each in tags {
                             if self.tags.indexOf(each) == nil {
                                 self.tags.append(each)
