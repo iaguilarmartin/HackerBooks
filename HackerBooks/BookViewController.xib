@@ -29,7 +29,11 @@
                     <items>
                         <barButtonItem title="Añadir a favoritos" id="Gh5-He-JN6"/>
                         <barButtonItem style="plain" systemItem="flexibleSpace" id="g1L-7u-swq"/>
-                        <barButtonItem title="Leer" id="qf5-bU-Q2N"/>
+                        <barButtonItem title="Leer" id="qf5-bU-Q2N">
+                            <connections>
+                                <action selector="readBook:" destination="-1" id="tdy-bh-A3e"/>
+                            </connections>
+                        </barButtonItem>
                     </items>
                 </toolbar>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Titulo" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="GJX-8e-sHO">

@@ -42,6 +42,12 @@ class BookViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
 
+    @IBAction func readBook(sender: AnyObject) {
+        
+        let pdfVC = PDFViewController(model: self.model)
+        self.navigationController?.pushViewController(pdfVC, animated: true)
+    }
+    
     func setTextValue(label: UILabel, text: String) {
         label.text = text
         label.numberOfLines = 0;
