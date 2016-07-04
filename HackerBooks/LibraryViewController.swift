@@ -13,8 +13,6 @@ let selectedBookKey = "book"
 
 class LibraryViewController: UITableViewController, LibraryViewControllerDelegate {
 
-    let bookCellId = "BookCell"
-    
     let model: Library
     var delegate: LibraryViewControllerDelegate?
     
@@ -27,6 +25,13 @@ class LibraryViewController: UITableViewController, LibraryViewControllerDelegat
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        let nib = UINib(nibName: "BookViewCell", bundle: nil)
+        self.tableView.registerNib(nib, forCellReuseIdentifier: BookViewCell.cellId)
     }
 
     // MARK: - Table view data source
@@ -45,21 +50,24 @@ class LibraryViewController: UITableViewController, LibraryViewControllerDelegat
     override func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         return self.model.nameOfTagAt(index: section)
     }
+    
+    override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        
+        return BookViewCell.cellHeight
+    }
 
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
-        var cell = tableView.dequeueReusableCellWithIdentifier(bookCellId)
-        if cell == nil {
-            cell = UITableViewCell(style: .Default, reuseIdentifier: bookCellId)
-        }
+        let cell: BookViewCell? = tableView.dequeueReusableCellWithIdentifier(BookViewCell.cellId, forIndexPath: indexPath) as? BookViewCell
         
         let tagName = self.model.nameOfTagAt(index: indexPath.section)
         if let book = self.model.getBookFromTag(tagName, atIndex: indexPath.row) {
-            cell?.textLabel?.text = book.title
+            cell?.bookName.text = book.title
+            cell?.bookAuthors.text = book.authors.joinWithSeparator(", ")
             
             if let maybeImage = try? DataDownloader.downloadExternalFileFromURL(book.image), image = maybeImage {
-                cell?.imageView?.image = UIImage(data: image)
+                cell?.bookImage.image = UIImage(data: image)
             }
         }
         
