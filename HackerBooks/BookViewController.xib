@@ -9,6 +9,7 @@
             <connections>
                 <outlet property="authorsLabel" destination="jEZ-ls-fvH" id="FgD-Vl-4LX"/>
                 <outlet property="bookImage" destination="dUI-Fr-FRH" id="ZrQ-CA-Gsx"/>
+                <outlet property="favoritesButton" destination="Gh5-He-JN6" id="e10-Yk-3c5"/>
                 <outlet property="tagsLabel" destination="Dl5-yX-rug" id="WBB-re-GQg"/>
                 <outlet property="titleLabel" destination="cWV-Gc-IPb" id="rr2-iG-gyR"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
@@ -27,7 +28,11 @@
                     <rect key="frame" x="0.0" y="524" width="320" height="44"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                     <items>
-                        <barButtonItem title="Añadir a favoritos" id="Gh5-He-JN6"/>
+                        <barButtonItem title="Añadir a favoritos" id="Gh5-He-JN6">
+                            <connections>
+                                <action selector="favoriteBook:" destination="-1" id="CUj-UE-OSw"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem style="plain" systemItem="flexibleSpace" id="g1L-7u-swq"/>
                         <barButtonItem title="Leer" id="qf5-bU-Q2N">
                             <connections>
@@ -71,8 +76,8 @@
                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="sdfasdfasdf asdf a asdfasd fasd fas dfasdf asdf asd fasdf" textAlignment="natural" lineBreakMode="clip" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Dl5-yX-rug">
-                    <rect key="frame" x="8" y="387" width="304" height="31"/>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="sdfasdfasdf asdf a asdfasd fasd fas dfasdf asdf asd fasdf" lineBreakMode="clip" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Dl5-yX-rug">
+                    <rect key="frame" x="8" y="387" width="304" height="47"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" name="ArialRoundedMTBold" family="Arial Rounded MT Bold" pointSize="18"/>
                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>

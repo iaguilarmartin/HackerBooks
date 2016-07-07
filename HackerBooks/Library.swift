@@ -8,14 +8,23 @@
 
 import Foundation
 
-class Library {
-    typealias BooksArray = [Book]
+typealias BooksArray = [Book]
+
+class Library: BookDelegate {
+    let favoritesTag = "favorites"
+    let favoritesUserDefaultsKey = "FavoriteBooks"
     
     var tags = [String]()
     var dictionary = [String: BooksArray]()
+    var isLibraryChanged = false
     
     init (json: NSData) {
         if let jsonArray = try? JSONManager.loadFromData(json) {
+            
+            let userDefaults = NSUserDefaults.standardUserDefaults()
+            let favoritesArray = userDefaults.arrayForKey(favoritesUserDefaultsKey) as? [String]
+            
+            dictionary[favoritesTag] = BooksArray()
             
             for dict:JSONDictionary in jsonArray {
                 if let title = dict["title"] as? String,
@@ -30,6 +39,13 @@ class Library {
                     if let image = NSURL(string: imageURL), document = NSURL(string: docURL) {
                         let book = Book(title: title, authors: authors, tags: tags, image: image, document: document)
 
+                        if let favoritesArray = favoritesArray where favoritesArray.contains(book.proxyForComparasion) {
+                            book.isFavorite = true
+                            dictionary[favoritesTag]?.append(book)
+                        }
+                        
+                        book.delegate = self
+                        
                         for each in tags {
                             if self.tags.indexOf(each) == nil {
                                 self.tags.append(each)
@@ -43,6 +59,8 @@ class Library {
             }
             
             sort()
+            
+            tags.insert(favoritesTag, atIndex: 0)
         }
     }
     
@@ -74,5 +92,22 @@ class Library {
                 return book1.title < book2.title
             })
         }
+    }
+    
+    func bookDelegate(book: Book, favoriteValueChanged newValue: Bool) {
+        if newValue {
+            dictionary[favoritesTag]?.append(book)
+        } else {
+            dictionary[favoritesTag] = dictionary[favoritesTag]?.filter({ $0 !== book })
+        }
+        
+        isLibraryChanged = true
+
+        let favoritesArray = dictionary[favoritesTag]!.map({ favoriteBook in
+            favoriteBook.proxyForComparasion
+        })
+        
+        let userDefaults = NSUserDefaults.standardUserDefaults()
+        userDefaults.setObject(favoritesArray, forKey: favoritesUserDefaultsKey)
     }
 }
