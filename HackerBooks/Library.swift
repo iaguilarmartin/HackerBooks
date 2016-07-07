@@ -110,4 +110,14 @@ class Library: BookDelegate {
         let userDefaults = NSUserDefaults.standardUserDefaults()
         userDefaults.setObject(favoritesArray, forKey: favoritesUserDefaultsKey)
     }
+    
+    func getFirstBook() -> Book? {
+        if dictionary[favoritesTag]?.count > 0 {
+            return dictionary[favoritesTag]?[0]
+        } else if tags.count > 1 {
+            return dictionary[tags[1]]![0]
+        }
+        
+        return nil
+    }
 }

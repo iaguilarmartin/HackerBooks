@@ -26,7 +26,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 let libraryNav = UINavigationController(rootViewController: libraryVC)
                 
                 if UIDevice.currentDevice().userInterfaceIdiom == .Pad {
-                    let bookVC = BookViewController(model: nil)
+                    let bookVC = BookViewController(model: library.getFirstBook())
                     let bookNav = UINavigationController(rootViewController: bookVC)
                     let splitVC = UISplitViewController()
                     splitVC.viewControllers = [libraryNav, bookNav]
