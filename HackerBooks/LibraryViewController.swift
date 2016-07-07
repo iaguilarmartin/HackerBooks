@@ -33,16 +33,28 @@ class LibraryViewController: UITableViewController, LibraryViewControllerDelegat
         let nib = UINib(nibName: "BookViewCell", bundle: nil)
         self.tableView.registerNib(nib, forCellReuseIdentifier: BookViewCell.cellId)
     }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(bookChanged), name: Book.bookChangedEvent, object: nil)
+        
+        reloadTable()
+    }
+    
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        NSNotificationCenter.defaultCenter().removeObserver(self)
+    }
 
     // MARK: - Table view data source
 
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
         return self.model.numberOfTags()
     }
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
         let tagName = self.model.nameOfTagAt(index: section)
         return self.model.numberOfBookFromTag(tagName)
     }
@@ -61,38 +73,56 @@ class LibraryViewController: UITableViewController, LibraryViewControllerDelegat
         
         let cell: BookViewCell? = tableView.dequeueReusableCellWithIdentifier(BookViewCell.cellId, forIndexPath: indexPath) as? BookViewCell
         
-        let tagName = self.model.nameOfTagAt(index: indexPath.section)
-        if let book = self.model.getBookFromTag(tagName, atIndex: indexPath.row) {
-            cell?.bookName.text = book.title
-            cell?.bookAuthors.text = book.authors.joinWithSeparator(", ")
-            
-            if let maybeImage = try? DataDownloader.downloadExternalFileFromURL(book.image), image = maybeImage {
-                cell?.bookImage.image = UIImage(data: image)
-            }
-        }
+        let book = getBookAtIndexPath(indexPath)
+        fillCell(cell, book: book)
         
         return cell!
     }
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        let tagName = self.model.nameOfTagAt(index: indexPath.section)
-        if let book = self.model.getBookFromTag(tagName, atIndex: indexPath.row) {
-            if UIDevice.currentDevice().userInterfaceIdiom == .Pad {
-                self.delegate?.libraryViewController(self, didSelectBook: book)
-            } else {
-                let bookVC = BookViewController(model: book)
-                self.navigationController?.pushViewController(bookVC, animated: true)
-            }
+        
+        let book = getBookAtIndexPath(indexPath)
+        
+        if UIDevice.currentDevice().userInterfaceIdiom == .Pad {
+            self.delegate?.libraryViewController(self, didSelectBook: book)
             
             let notif = NSNotification(name: selectedBookChanged, object: self, userInfo: [selectedBookKey: book])
             let notifCenter = NSNotificationCenter.defaultCenter()
             notifCenter.postNotification(notif)
+        } else {
+            let bookVC = BookViewController(model: book)
+            self.navigationController?.pushViewController(bookVC, animated: true)
         }
     }
     
     func libraryViewController(libraryVC: LibraryViewController, didSelectBook book: Book) {
         let bookVC = BookViewController(model: book)
         self.navigationController?.pushViewController(bookVC, animated: true)
+    }
+    
+    func fillCell(cell: BookViewCell?, book: Book) {
+        cell?.bookName.text = book.title
+        cell?.bookAuthors.text = book.authors.joinWithSeparator(", ")
+        
+        if let maybeImage = try? DataDownloader.downloadExternalFileFromURL(book.image), image = maybeImage {
+            cell?.bookImage.image = UIImage(data: image)
+        }
+    }
+    
+    func getBookAtIndexPath(path: NSIndexPath) -> Book {
+        let tagName = self.model.nameOfTagAt(index: path.section)
+        return self.model.getBookFromTag(tagName, atIndex: path.row)!
+    }
+    
+    func bookChanged(notif: NSNotification) {
+        reloadTable()
+    }
+    
+    func reloadTable() {
+        if self.model.isLibraryChanged {
+            self.tableView.reloadData()
+            self.model.isLibraryChanged = false
+        }
     }
 }
 
