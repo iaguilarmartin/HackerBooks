@@ -16,6 +16,7 @@ class BookViewController: UIViewController, LibraryViewControllerDelegate, UISpl
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var authorsLabel: UILabel!
     @IBOutlet weak var tagsLabel: UILabel!
+    @IBOutlet weak var favoritesButton: UIBarButtonItem!
     
     init(model: Book?) {
         self.model = model
@@ -46,6 +47,13 @@ class BookViewController: UIViewController, LibraryViewControllerDelegate, UISpl
         }
     }
     
+    @IBAction func favoriteBook(sender: AnyObject) {
+        if self.model != nil {
+            self.model?.isFavorite = !(self.model?.isFavorite)!
+            updateView()
+        }
+    }
+    
     func updateView() {
         if let book = self.model {
             self.title = book.title
@@ -58,6 +66,13 @@ class BookViewController: UIViewController, LibraryViewControllerDelegate, UISpl
             if let maybeImage = try? DataDownloader.downloadExternalFileFromURL(book.image), image = maybeImage {
                 self.bookImage.image  = UIImage(data: image)
             }
+            
+            if book.isFavorite {
+                favoritesButton.title = "Quitar de favoritos"
+            } else {
+                favoritesButton.title = "Añadir a favoritos"
+            }
+            
         } else {
             self.title = "Ningún libro seleccionado"
             self.view.hidden = true
