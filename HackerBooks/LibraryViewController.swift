@@ -15,9 +15,18 @@ class LibraryViewController: UITableViewController, LibraryViewControllerDelegat
 
     let model: Library
     var delegate: LibraryViewControllerDelegate?
+    var segmentedControl: UISegmentedControl
+    
+    var areTagsVisibles: Bool {
+        get {
+            return segmentedControl.selectedSegmentIndex == 0
+        }
+    }
     
     init(model: Library) {
         self.model = model
+        self.segmentedControl = UISegmentedControl(items: ["Tags", "Alphabetical"])
+        
         super.init(nibName: nil, bundle: nil)
         
         self.title = "Hacker Books Library"
@@ -32,6 +41,11 @@ class LibraryViewController: UITableViewController, LibraryViewControllerDelegat
         
         let nib = UINib(nibName: "BookViewCell", bundle: nil)
         self.tableView.registerNib(nib, forCellReuseIdentifier: BookViewCell.cellId)
+        
+        self.segmentedControl.selectedSegmentIndex = 0
+        self.segmentedControl.addTarget(self, action: #selector(selectedSegmentChanged), forControlEvents: .ValueChanged)
+        
+        self.navigationItem.titleView = self.segmentedControl
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -51,16 +65,28 @@ class LibraryViewController: UITableViewController, LibraryViewControllerDelegat
     // MARK: - Table view data source
 
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return self.model.numberOfTags()
+        if areTagsVisibles {
+            return self.model.numberOfTags()
+        } else {
+            return 1
+        }
     }
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        let tagName = self.model.nameOfTagAt(index: section)
-        return self.model.numberOfBookFromTag(tagName)
+        if areTagsVisibles {
+            let tagName = self.model.nameOfTagAt(index: section)
+            return self.model.numberOfBookFromTag(tagName)
+        } else {
+            return self.model.numberOfBooks()
+        }
     }
     
     override func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return self.model.nameOfTagAt(index: section)
+        if areTagsVisibles {
+            return self.model.nameOfTagAt(index: section)
+        } else {
+            return nil
+        }
     }
     
     override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
@@ -110,8 +136,12 @@ class LibraryViewController: UITableViewController, LibraryViewControllerDelegat
     }
     
     func getBookAtIndexPath(path: NSIndexPath) -> Book {
-        let tagName = self.model.nameOfTagAt(index: path.section)
-        return self.model.getBookFromTag(tagName, atIndex: path.row)!
+        if areTagsVisibles {
+            let tagName = self.model.nameOfTagAt(index: path.section)
+            return self.model.getBookFromTag(tagName, atIndex: path.row)!
+        } else {
+            return self.model.getBookAtIndex(path.row)
+        }
     }
     
     func bookChanged(notif: NSNotification) {
@@ -123,6 +153,11 @@ class LibraryViewController: UITableViewController, LibraryViewControllerDelegat
             self.tableView.reloadData()
             self.model.isLibraryChanged = false
         }
+    }
+    
+    func selectedSegmentChanged() {
+        self.tableView.scrollRectToVisible(CGRectMake(0, 0, 1, 1), animated: false)
+        self.tableView.reloadData()
     }
 }
 
