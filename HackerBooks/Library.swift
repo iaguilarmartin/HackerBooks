@@ -15,8 +15,13 @@ class Library: BookDelegate {
     let favoritesUserDefaultsKey = "FavoriteBooks"
     
     var tags = [String]()
+    var books = BooksArray()
     var dictionary = [String: BooksArray]()
     var isLibraryChanged = false
+    
+    let sortClosure = { (book1: Book, book2: Book) -> Bool in
+        return book1.title < book2.title
+    }
     
     init (json: NSData) {
         if let jsonArray = try? JSONManager.loadFromData(json) {
@@ -46,6 +51,8 @@ class Library: BookDelegate {
                         
                         book.delegate = self
                         
+                        books.append(book)
+                        
                         for each in tags {
                             if self.tags.indexOf(each) == nil {
                                 self.tags.append(each)
@@ -68,6 +75,10 @@ class Library: BookDelegate {
         return tags.count
     }
     
+    func numberOfBooks() -> Int {
+        return books.count
+    }
+    
     func numberOfBookFromTag(tag: String) -> Int {
         guard let count = dictionary[tag]?.count else {
             return 0
@@ -80,6 +91,10 @@ class Library: BookDelegate {
         return tags[i]
     }
     
+    func getBookAtIndex(index: Int) -> Book {
+        return books[index]
+    }
+    
     func getBookFromTag(tag: String, atIndex i: Int) -> Book? {
         return dictionary[tag]?[i]
     }
@@ -87,10 +102,10 @@ class Library: BookDelegate {
     func sort() {
         tags.sortInPlace()
         
+        books.sortInPlace(sortClosure)
+        
         for tag in self.tags {
-            dictionary[tag]?.sortInPlace({ (book1, book2) -> Bool in
-                return book1.title < book2.title
-            })
+            dictionary[tag]?.sortInPlace(sortClosure)
         }
     }
     
@@ -100,6 +115,8 @@ class Library: BookDelegate {
         } else {
             dictionary[favoritesTag] = dictionary[favoritesTag]?.filter({ $0 !== book })
         }
+        
+        dictionary[favoritesTag]?.sortInPlace(sortClosure)
         
         isLibraryChanged = true
 
