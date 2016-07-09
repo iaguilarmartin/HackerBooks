@@ -1,0 +1,102 @@
+import UIKit
+
+// View Controller to display detailed book information
+class BookViewController: UIViewController, LibraryViewControllerDelegate, UISplitViewControllerDelegate {
+
+    //MARK: - Properties
+    var model: Book?
+    
+    //MARK: - IBOutlets
+    @IBOutlet weak var bookImage: UIImageView!
+    @IBOutlet weak var titleLabel: UILabel!
+    @IBOutlet weak var authorsLabel: UILabel!
+    @IBOutlet weak var tagsLabel: UILabel!
+    @IBOutlet weak var favoritesButton: UIBarButtonItem!
+    
+    //MARK: - Initializers
+    init(model: Book?) {
+        self.model = model
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    //MARK: - Lifecycle
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        self.edgesForExtendedLayout = .None
+        
+        updateView()
+        
+        if self.splitViewController?.displayMode == .PrimaryHidden {
+            self.navigationItem.rightBarButtonItem = self.splitViewController?.displayModeButtonItem()
+        }
+    }
+    
+    //MARK: - IBActions
+    @IBAction func readBook(sender: AnyObject) {
+        
+        if let book = self.model {
+            let pdfVC = PDFViewController(model: book)
+            self.navigationController?.pushViewController(pdfVC, animated: true)
+        }
+    }
+    
+    @IBAction func favoriteBook(sender: AnyObject) {
+        if self.model != nil {
+            self.model?.isFavorite = !(self.model?.isFavorite)!
+            updateView()
+        }
+    }
+    
+    //MARK: - Functions
+    
+    // Function that updates the view based on model state
+    func updateView() {
+        if let book = self.model {
+            self.title = book.title
+            self.view.hidden = false
+            
+            self.titleLabel.text = book.title
+            self.authorsLabel.text = book.authors.joinWithSeparator(", ")
+            self.tagsLabel.text = book.tags.joinWithSeparator(", ")
+            
+            if let maybeImage = try? DataDownloader.downloadExternalFileFromURL(book.image), image = maybeImage {
+                self.bookImage.image  = UIImage(data: image)
+            }
+            
+            if book.isFavorite {
+                favoritesButton.title = "Quitar de favoritos"
+            } else {
+                favoritesButton.title = "Añadir a favoritos"
+            }
+        
+        // If no model is set then main view is hidden
+        } else {
+            self.title = "Ningún libro seleccionado"
+            self.view.hidden = true
+        }
+    }
+    
+    //MARK: - LibraryViewControllerDelegate
+    func libraryViewController(libraryVC: LibraryViewController, didSelectBook book: Book) {
+        self.model = book
+        updateView()
+    }
+    
+    //MARK: - UISplitViewControllerDelegate
+    func splitViewController(svc: UISplitViewController, willChangeToDisplayMode displayMode: UISplitViewControllerDisplayMode) {
+        
+        // If the screen is in portrait mode the library is displayed at the rigth
+        // button of the NavigationBar
+        if displayMode == .PrimaryHidden {
+            self.navigationItem.rightBarButtonItem = self.splitViewController?.displayModeButtonItem()
+        } else if displayMode == .AllVisible {
+            self.navigationItem.rightBarButtonItem = nil
+        }
+        
+    }
+}
