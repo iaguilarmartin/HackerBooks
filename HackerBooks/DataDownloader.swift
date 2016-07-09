@@ -8,7 +8,7 @@ struct DataDownloader {
     static private let appInitializedKey = "app_initialized"
     static private let localJSONFileName = "library.json"
     
-    // Documents path inside the application bundle
+    // Documents path inside the application SandBox
     static let documentsPath = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0]
     
     // function that downloads a file from a server and then saves it locally for future uses
@@ -42,7 +42,7 @@ struct DataDownloader {
         return NSData(contentsOfURL: localJSONFilePath)
     }
     
-    // function to download files from an URL if it is not in app bundle yet
+    // function to download files from an URL if it is not in app SandBox yet
     static func downloadExternalFileFromURL(url: NSURL) throws -> NSData? {
         
         // get the name of the file from the URL
@@ -50,7 +50,7 @@ struct DataDownloader {
             throw ApplicationErrors.wrongFileName
         }
         
-        // search the file in the documents path of the application bundle
+        // search the file in the documents path of the application SandBox
         // if it is not there then it is downloaded from the server
         let localFilePath = NSURL(fileURLWithPath: documentsPath, isDirectory: true).URLByAppendingPathComponent(fileName)
         
