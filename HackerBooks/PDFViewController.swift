@@ -1,19 +1,15 @@
-//
-//  PDFViewController.swift
-//  HackerBooks
-//
-//  Created by Ivan Aguilar Martin on 30/6/16.
-//  Copyright © 2016 Ivan Aguilar Martin. All rights reserved.
-//
-
 import UIKit
 
+// View Controller to display PDF files
 class PDFViewController: UIViewController {
     
+    //MARK: - Properties
     var model: Book
     
+    //MARK: - IBOutlets
     @IBOutlet weak var pdfWebView: UIWebView!
     
+    //MARK: - Initializers
     init(model: Book) {
         self.model = model
         super.init(nibName: nil, bundle: nil)
@@ -23,6 +19,7 @@ class PDFViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
+    //MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -34,15 +31,21 @@ class PDFViewController: UIViewController {
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
+        // Subscribe to selectedBookChanged notifications
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(newBookSelected), name: selectedBookChanged, object: nil)
     }
     
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
         
+        // Unsubscribe to all notifications
         NSNotificationCenter.defaultCenter().removeObserver(self)
     }
     
+    
+    //MARK: - Functions
+    
+    // function to update controller title and WebView content
     func updateView() {
         self.title = self.model.title
         
@@ -52,6 +55,7 @@ class PDFViewController: UIViewController {
         }
     }
     
+    // Function called when selectedBookChanged notification arrives
     func newBookSelected(notificarion: NSNotification) {
         let info = notificarion.userInfo
         
