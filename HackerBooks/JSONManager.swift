@@ -1,17 +1,11 @@
-//
-//  JSONManager.swift
-//  HackerBooks
-//
-//  Created by Ivan Aguilar Martin on 29/6/16.
-//  Copyright © 2016 Ivan Aguilar Martin. All rights reserved.
-//
-
 import Foundation
 
 //MARK: - Aliases
 typealias JSONObject = AnyObject
 typealias JSONDictionary = [String : JSONObject]
 typealias JSONArray = [JSONDictionary]
+
+// A struct with a method to convert a JSON file into an Array of JSON objects
 
 struct JSONManager {
     static func loadFromData(data: NSData) throws -> JSONArray {

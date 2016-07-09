@@ -1,12 +1,6 @@
-//
-//  ApplicationErrors.swift
-//  HackerBooks
-//
-//  Created by Ivan Aguilar Martin on 28/6/16.
-//  Copyright © 2016 Ivan Aguilar Martin. All rights reserved.
-//
-
 import Foundation
+
+// Enum with the most common errors tracked inside the app
 
 enum ApplicationErrors : ErrorType {
     case invalidJSONURL
