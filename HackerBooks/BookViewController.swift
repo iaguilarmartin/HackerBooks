@@ -24,20 +24,20 @@ class BookViewController: UIViewController, LibraryViewControllerDelegate, UISpl
     }
     
     //MARK: - Lifecycle
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        self.edgesForExtendedLayout = .None
+        self.edgesForExtendedLayout = UIRectEdge()
         
         updateView()
         
-        if self.splitViewController?.displayMode == .PrimaryHidden {
-            self.navigationItem.rightBarButtonItem = self.splitViewController?.displayModeButtonItem()
+        if self.splitViewController?.displayMode == .primaryHidden {
+            self.navigationItem.rightBarButtonItem = self.splitViewController?.displayModeButtonItem
         }
     }
     
     //MARK: - IBActions
-    @IBAction func readBook(sender: AnyObject) {
+    @IBAction func readBook(_ sender: AnyObject) {
         
         if let book = self.model {
             let pdfVC = PDFViewController(model: book)
@@ -45,7 +45,7 @@ class BookViewController: UIViewController, LibraryViewControllerDelegate, UISpl
         }
     }
     
-    @IBAction func favoriteBook(sender: AnyObject) {
+    @IBAction func favoriteBook(_ sender: AnyObject) {
         if self.model != nil {
             self.model?.isFavorite = !(self.model?.isFavorite)!
             updateView()
@@ -58,13 +58,13 @@ class BookViewController: UIViewController, LibraryViewControllerDelegate, UISpl
     func updateView() {
         if let book = self.model {
             self.title = book.title
-            self.view.hidden = false
+            self.view.isHidden = false
             
             self.titleLabel.text = book.title
-            self.authorsLabel.text = book.authors.joinWithSeparator(", ")
-            self.tagsLabel.text = book.tags.joinWithSeparator(", ")
+            self.authorsLabel.text = book.authors.joined(separator: ", ")
+            self.tagsLabel.text = book.tags.joined(separator: ", ")
             
-            if let maybeImage = try? DataDownloader.downloadExternalFileFromURL(book.image), image = maybeImage {
+            if let maybeImage = try? DataDownloader.downloadExternalFileFromURL(book.image), let image = maybeImage {
                 self.bookImage.image  = UIImage(data: image)
             }
             
@@ -77,24 +77,24 @@ class BookViewController: UIViewController, LibraryViewControllerDelegate, UISpl
         // If no model is set then main view is hidden
         } else {
             self.title = "Ningún libro seleccionado"
-            self.view.hidden = true
+            self.view.isHidden = true
         }
     }
     
     //MARK: - LibraryViewControllerDelegate
-    func libraryViewController(libraryVC: LibraryViewController, didSelectBook book: Book) {
+    func libraryViewController(_ libraryVC: LibraryViewController, didSelectBook book: Book) {
         self.model = book
         updateView()
     }
     
     //MARK: - UISplitViewControllerDelegate
-    func splitViewController(svc: UISplitViewController, willChangeToDisplayMode displayMode: UISplitViewControllerDisplayMode) {
+    func splitViewController(_ svc: UISplitViewController, willChangeTo displayMode: UISplitViewControllerDisplayMode) {
         
         // If the screen is in portrait mode the library is displayed at the rigth
         // button of the NavigationBar
-        if displayMode == .PrimaryHidden {
-            self.navigationItem.rightBarButtonItem = self.splitViewController?.displayModeButtonItem()
-        } else if displayMode == .AllVisible {
+        if displayMode == .primaryHidden {
+            self.navigationItem.rightBarButtonItem = self.splitViewController?.displayModeButtonItem
+        } else if displayMode == .allVisible {
             self.navigationItem.rightBarButtonItem = nil
         }
         

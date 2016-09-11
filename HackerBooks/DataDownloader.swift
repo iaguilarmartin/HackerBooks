@@ -4,60 +4,61 @@ import Foundation
 
 struct DataDownloader {
     
-    static private let remoteJSONURLString = "https://t.co/K9ziV0z3SJ"
-    static private let appInitializedKey = "app_initialized"
-    static private let localJSONFileName = "library.json"
+    static fileprivate let remoteJSONURLString = "https://t.co/K9ziV0z3SJ"
+    static fileprivate let appInitializedKey = "app_initialized"
+    static fileprivate let localJSONFileName = "library.json"
     
     // Documents path inside the application SandBox
-    static let documentsPath = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0]
+    static let documentsPath = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0]
     
     // function that downloads a file from a server and then saves it locally for future uses
-    static func downloadApplicationData() throws ->  NSData? {
+    static func downloadApplicationData() throws ->  Data? {
         
         // local path where the file should be saved
-        let localJSONFilePath = NSURL(fileURLWithPath: documentsPath, isDirectory: true).URLByAppendingPathComponent(localJSONFileName)
+        let localJSONFilePath = URL(fileURLWithPath: documentsPath, isDirectory: true).appendingPathComponent(localJSONFileName)
         
         // if it is the first time that the app is running then 
         // the JSON file needs to be downloaded
-        let userDefaults = NSUserDefaults.standardUserDefaults()
-        if !userDefaults.boolForKey(appInitializedKey) {
+        let userDefaults = UserDefaults.standard
+        if !userDefaults.bool(forKey: appInitializedKey) {
  
             // Downloading file from the server
-            let jsonURL = NSURL(string: remoteJSONURLString)
+            let jsonURL = URL(string: remoteJSONURLString)
             guard let url = jsonURL else {
                 throw ApplicationErrors.invalidJSONURL
             }
             
-            let jsonData = NSData(contentsOfURL: url)
+            let jsonData = try? Data(contentsOf: url)
         
             // Trying to save the file localy
-            guard let result = jsonData?.writeToURL(localJSONFilePath, atomically: false) where result else {
+            guard let _ = try? jsonData?.write(to: localJSONFilePath, options: .atomic) else {
                 throw ApplicationErrors.cantSaveJSONFile
             }
             
             // Setting the app as initialized
-            userDefaults.setBool(true, forKey: appInitializedKey)
+            userDefaults.set(true, forKey: appInitializedKey)
         }
         
-        return NSData(contentsOfURL: localJSONFilePath)
+        return (try? Data(contentsOf: localJSONFilePath))
     }
     
     // function to download files from an URL if it is not in app SandBox yet
-    static func downloadExternalFileFromURL(url: NSURL) throws -> NSData? {
+    static func downloadExternalFileFromURL(_ url: URL) throws -> Data? {
         
         // get the name of the file from the URL
-        guard let fileName = url.lastPathComponent else {
+        let fileName = url.lastPathComponent
+        if (fileName == "") {
             throw ApplicationErrors.wrongFileName
         }
         
         // search the file in the documents path of the application SandBox
         // if it is not there then it is downloaded from the server
-        let localFilePath = NSURL(fileURLWithPath: documentsPath, isDirectory: true).URLByAppendingPathComponent(fileName)
+        let localFilePath = URL(fileURLWithPath: documentsPath, isDirectory: true).appendingPathComponent(fileName)
         
-        guard let localData = NSData(contentsOfURL: localFilePath) else {
+        guard let localData = try? Data(contentsOf: localFilePath) else {
             
-            let remoteData = NSData(contentsOfURL: url)
-            remoteData?.writeToURL(localFilePath, atomically: false)
+            let remoteData = try? Data(contentsOf: url)
+            try? remoteData?.write(to: localFilePath, options: [])
             return remoteData
         }
         

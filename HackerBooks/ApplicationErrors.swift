@@ -2,7 +2,7 @@ import Foundation
 
 // Enum with the most common errors tracked inside the app
 
-enum ApplicationErrors : ErrorType {
+enum ApplicationErrors : Error {
     case invalidJSONURL
     case noLocalJSONFile
     case cantSaveJSONFile

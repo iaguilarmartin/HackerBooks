@@ -23,23 +23,23 @@ class PDFViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.edgesForExtendedLayout = .None
+        self.edgesForExtendedLayout = UIRectEdge()
         
         updateView()
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
         // Subscribe to selectedBookChanged notifications
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(newBookSelected), name: selectedBookChanged, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(newBookSelected), name: NSNotification.Name(rawValue: selectedBookChanged), object: nil)
     }
     
-    override func viewWillDisappear(animated: Bool) {
+    override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
         // Unsubscribe to all notifications
-        NSNotificationCenter.defaultCenter().removeObserver(self)
+        NotificationCenter.default.removeObserver(self)
     }
     
     
@@ -49,15 +49,16 @@ class PDFViewController: UIViewController {
     func updateView() {
         self.title = self.model.title
         
-        if let maybePDF = try? DataDownloader.downloadExternalFileFromURL(self.model.document), pdf = maybePDF, baseURL = self.model.document.URLByDeletingLastPathComponent {
+        if let maybePDF = try? DataDownloader.downloadExternalFileFromURL(self.model.document), let pdf = maybePDF {
             
-            pdfWebView.loadData(pdf, MIMEType: "application/pdf", textEncodingName: "", baseURL: baseURL)
+            let baseURL = self.model.document.deletingLastPathComponent()
+            pdfWebView.load(pdf, mimeType: "application/pdf", textEncodingName: "", baseURL: baseURL)
         }
     }
     
     // Function called when selectedBookChanged notification arrives
-    func newBookSelected(notificarion: NSNotification) {
-        let info = notificarion.userInfo
+    func newBookSelected(_ notificarion: Notification) {
+        let info = (notificarion as NSNotification).userInfo
         
         if let book = info?[selectedBookKey] as? Book {
             self.model = book

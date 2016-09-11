@@ -11,8 +11,8 @@ class Book: Equatable {
     let title: String
     let authors: [String]
     let tags: [String]
-    let image: NSURL
-    let document: NSURL
+    let image: URL
+    let document: URL
     var delegate: BookDelegate?
     
     // Observing property to send a notification when the model is changed
@@ -25,12 +25,12 @@ class Book: Equatable {
             }
             
             // Notifying to everyone
-            NSNotificationCenter.defaultCenter().postNotificationName(Book.bookChangedEvent, object: self, userInfo: [Book.bookChangedKey: self])
+            NotificationCenter.default.post(name: Notification.Name(rawValue: Book.bookChangedEvent), object: self, userInfo: [Book.bookChangedKey: self])
         }
     }
     
     //MARK: - Initializer
-    init (title: String, authors: [String], tags: [String], image: NSURL, document: NSURL) {
+    init (title: String, authors: [String], tags: [String], image: URL, document: URL) {
         self.title = title
         self.authors = authors
         self.tags = tags
@@ -41,7 +41,7 @@ class Book: Equatable {
     //MARK: - Proxy for comparison
     var proxyForComparasion: String {
         get {
-            return "\(title)\(authors.joinWithSeparator(","))\(tags.joinWithSeparator(","))"
+            return "\(title)\(authors.joined(separator: ","))\(tags.joined(separator: ","))"
         }
     }
 }
@@ -53,5 +53,5 @@ func ==(lhs: Book, rhs: Book) -> Bool {
 
 // Book delegate protocol to notify when model is changed
 protocol BookDelegate {
-    func bookDelegate(book: Book, favoriteValueChanged newValue:Bool)
+    func bookDelegate(_ book: Book, favoriteValueChanged newValue:Bool)
 }
