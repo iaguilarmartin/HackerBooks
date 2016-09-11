@@ -38,35 +38,35 @@ class LibraryViewController: UITableViewController {
         
         // Register default cell type
         let nib = UINib(nibName: "BookViewCell", bundle: nil)
-        self.tableView.registerNib(nib, forCellReuseIdentifier: BookViewCell.cellId)
+        self.tableView.register(nib, forCellReuseIdentifier: BookViewCell.cellId)
         
         // Replace the TitleView of the NavigationController with a SegmentedControl
         // to indicate if displaying books grouped by tag or ordered by title
         self.segmentedControl.selectedSegmentIndex = 0
-        self.segmentedControl.addTarget(self, action: #selector(selectedSegmentChanged), forControlEvents: .ValueChanged)
+        self.segmentedControl.addTarget(self, action: #selector(selectedSegmentChanged), for: .valueChanged)
         
         self.navigationItem.titleView = self.segmentedControl
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
         // Subscribe to bookChangedEvent notifications
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(bookChanged), name: Book.bookChangedEvent, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(bookChanged), name: NSNotification.Name(rawValue: Book.bookChangedEvent), object: nil)
         
         // Update table each time the view would be displayed
         reloadTable()
     }
     
-    override func viewWillDisappear(animated: Bool) {
+    override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
         // Unsubscribe to all notifications
-        NSNotificationCenter.defaultCenter().removeObserver(self)
+        NotificationCenter.default.removeObserver(self)
     }
 
     // MARK: - Table view data source
-    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    override func numberOfSections(in tableView: UITableView) -> Int {
         if areTagsVisibles {
             return self.model.numberOfTags()
         } else {
@@ -74,7 +74,7 @@ class LibraryViewController: UITableViewController {
         }
     }
 
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if areTagsVisibles {
             let tagName = self.model.nameOfTagAt(index: section)
             return self.model.numberOfBookFromTag(tagName)
@@ -83,7 +83,7 @@ class LibraryViewController: UITableViewController {
         }
     }
     
-    override func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         if areTagsVisibles {
             return self.model.nameOfTagAt(index: section)
         } else {
@@ -91,16 +91,16 @@ class LibraryViewController: UITableViewController {
         }
     }
     
-    override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         
         return BookViewCell.cellHeight
     }
 
     
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         // Try to reuse an existing cell
-        let cell: BookViewCell? = tableView.dequeueReusableCellWithIdentifier(BookViewCell.cellId, forIndexPath: indexPath) as? BookViewCell
+        let cell: BookViewCell? = tableView.dequeueReusableCell(withIdentifier: BookViewCell.cellId, for: indexPath) as? BookViewCell
         
         // Get book to be displayed
         let book = getBookAtIndexPath(indexPath)
@@ -111,19 +111,19 @@ class LibraryViewController: UITableViewController {
         return cell!
     }
     
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         // Get selected book
         let book = getBookAtIndexPath(indexPath)
         
         // If current device is an iPad then existing BookViewController is informed that a
         // new book is selected. Else, app navigates to the a new BookViewController
-        if UIDevice.currentDevice().userInterfaceIdiom == .Pad {
+        if UIDevice.current.userInterfaceIdiom == .pad {
             self.delegate?.libraryViewController(self, didSelectBook: book)
             
-            let notif = NSNotification(name: selectedBookChanged, object: self, userInfo: [selectedBookKey: book])
-            let notifCenter = NSNotificationCenter.defaultCenter()
-            notifCenter.postNotification(notif)
+            let notif = Notification(name: Notification.Name(rawValue: selectedBookChanged), object: self, userInfo: [selectedBookKey: book])
+            let notifCenter = NotificationCenter.default
+            notifCenter.post(notif)
         } else {
             let bookVC = BookViewController(model: book)
             self.navigationController?.pushViewController(bookVC, animated: true)
@@ -131,25 +131,25 @@ class LibraryViewController: UITableViewController {
     }
     
     //MARK: - Functions
-    func fillCell(cell: BookViewCell?, book: Book) {
+    func fillCell(_ cell: BookViewCell?, book: Book) {
         cell?.bookName.text = book.title
-        cell?.bookAuthors.text = book.authors.joinWithSeparator(", ")
+        cell?.bookAuthors.text = book.authors.joined(separator: ", ")
         
-        if let maybeImage = try? DataDownloader.downloadExternalFileFromURL(book.image), image = maybeImage {
+        if let maybeImage = try? DataDownloader.downloadExternalFileFromURL(book.image), let image = maybeImage {
             cell?.bookImage.image = UIImage(data: image)
         }
     }
     
-    func getBookAtIndexPath(path: NSIndexPath) -> Book {
+    func getBookAtIndexPath(_ path: IndexPath) -> Book {
         if areTagsVisibles {
-            let tagName = self.model.nameOfTagAt(index: path.section)
-            return self.model.getBookFromTag(tagName, atIndex: path.row)!
+            let tagName = self.model.nameOfTagAt(index: (path as NSIndexPath).section)
+            return self.model.getBookFromTag(tagName, atIndex: (path as NSIndexPath).row)!
         } else {
-            return self.model.getBookAtIndex(path.row)
+            return self.model.getBookAtIndex((path as NSIndexPath).row)
         }
     }
     
-    func bookChanged(notif: NSNotification) {
+    func bookChanged(_ notif: Notification) {
         reloadTable()
     }
     
@@ -166,11 +166,11 @@ class LibraryViewController: UITableViewController {
     func selectedSegmentChanged() {
         
         //Scroll the TableView to the first element
-        self.tableView.scrollRectToVisible(CGRectMake(0, 0, 1, 1), animated: false)
+        self.tableView.scrollRectToVisible(CGRect(x: 0, y: 0, width: 1, height: 1), animated: false)
         self.tableView.reloadData()
     }
 }
 
 protocol LibraryViewControllerDelegate {
-    func libraryViewController(libraryVC: LibraryViewController, didSelectBook book: Book)
+    func libraryViewController(_ libraryVC: LibraryViewController, didSelectBook book: Book)
 }

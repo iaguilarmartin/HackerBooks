@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		87AE408E1D2A727500A4CE3E /* BookViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87AE408C1D2A727500A4CE3E /* BookViewCell.swift */; };
 		87AE408F1D2A727500A4CE3E /* BookViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 87AE408D1D2A727500A4CE3E /* BookViewCell.xib */; };
+		87CD67BE1D8577540024F71B /* emptyBookCover.png in Resources */ = {isa = PBXBuildFile; fileRef = 87CD67BC1D8577540024F71B /* emptyBookCover.png */; };
+		87CD67BF1D8577540024F71B /* emptyPdf.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 87CD67BD1D8577540024F71B /* emptyPdf.pdf */; };
 		87D460471D2521930013B321 /* LibraryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87D460461D2521930013B321 /* LibraryViewController.swift */; };
 		87D4604A1D2537210013B321 /* BookViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87D460481D2537210013B321 /* BookViewController.swift */; };
 		87D4604B1D2537210013B321 /* BookViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 87D460491D2537210013B321 /* BookViewController.xib */; };
@@ -46,6 +48,8 @@
 /* Begin PBXFileReference section */
 		87AE408C1D2A727500A4CE3E /* BookViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookViewCell.swift; sourceTree = "<group>"; };
 		87AE408D1D2A727500A4CE3E /* BookViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BookViewCell.xib; sourceTree = "<group>"; };
+		87CD67BC1D8577540024F71B /* emptyBookCover.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = emptyBookCover.png; sourceTree = "<group>"; };
+		87CD67BD1D8577540024F71B /* emptyPdf.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = emptyPdf.pdf; sourceTree = "<group>"; };
 		87D460461D2521930013B321 /* LibraryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LibraryViewController.swift; sourceTree = "<group>"; };
 		87D460481D2537210013B321 /* BookViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookViewController.swift; sourceTree = "<group>"; };
 		87D460491D2537210013B321 /* BookViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BookViewController.xib; sourceTree = "<group>"; };
@@ -103,6 +107,15 @@
 			name = Views;
 			sourceTree = "<group>";
 		};
+		87CD67BB1D85772B0024F71B /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				87CD67BC1D8577540024F71B /* emptyBookCover.png */,
+				87CD67BD1D8577540024F71B /* emptyPdf.pdf */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
 		87D460451D2520310013B321 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
@@ -138,6 +151,7 @@
 		87EF32611D22D30000C859AE /* HackerBooks */ = {
 			isa = PBXGroup;
 			children = (
+				87CD67BB1D85772B0024F71B /* Resources */,
 				87AE40901D2A792900A4CE3E /* Views */,
 				87D460451D2520310013B321 /* Controllers */,
 				87EF32901D22D67500C859AE /* Models */,
@@ -242,18 +256,21 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0730;
-				LastUpgradeCheck = 0730;
+				LastUpgradeCheck = 0800;
 				ORGANIZATIONNAME = "Ivan Aguilar Martin";
 				TargetAttributes = {
 					87EF325E1D22D30000C859AE = {
 						CreatedOnToolsVersion = 7.3.1;
+						LastSwiftMigration = 0800;
 					};
 					87EF32721D22D30000C859AE = {
 						CreatedOnToolsVersion = 7.3.1;
+						LastSwiftMigration = 0800;
 						TestTargetID = 87EF325E1D22D30000C859AE;
 					};
 					87EF327D1D22D30000C859AE = {
 						CreatedOnToolsVersion = 7.3.1;
+						LastSwiftMigration = 0800;
 						TestTargetID = 87EF325E1D22D30000C859AE;
 					};
 				};
@@ -285,8 +302,10 @@
 			files = (
 				87EF326D1D22D30000C859AE /* LaunchScreen.storyboard in Resources */,
 				87EF326A1D22D30000C859AE /* Assets.xcassets in Resources */,
+				87CD67BF1D8577540024F71B /* emptyPdf.pdf in Resources */,
 				87D4604B1D2537210013B321 /* BookViewController.xib in Resources */,
 				87AE408F1D2A727500A4CE3E /* BookViewCell.xib in Resources */,
+				87CD67BE1D8577540024F71B /* emptyBookCover.png in Resources */,
 				87D4604F1D25496D0013B321 /* PDFViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -382,8 +401,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -428,8 +449,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -448,6 +471,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 			};
@@ -461,6 +485,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.iaguilarmartin.HackerBooks;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
@@ -472,6 +497,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.iaguilarmartin.HackerBooks;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
 		};
@@ -483,6 +509,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.iaguilarmartin.HackerBooksTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/HackerBooks.app/HackerBooks";
 			};
 			name = Debug;
@@ -495,6 +522,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.iaguilarmartin.HackerBooksTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/HackerBooks.app/HackerBooks";
 			};
 			name = Release;
@@ -506,6 +534,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.iaguilarmartin.HackerBooksUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 				TEST_TARGET_NAME = HackerBooks;
 			};
 			name = Debug;
@@ -517,6 +546,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.iaguilarmartin.HackerBooksUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 				TEST_TARGET_NAME = HackerBooks;
 			};
 			name = Release;

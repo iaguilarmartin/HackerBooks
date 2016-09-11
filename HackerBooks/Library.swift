@@ -1,4 +1,24 @@
 import Foundation
+fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l < r
+  case (nil, _?):
+    return true
+  default:
+    return false
+  }
+}
+
+fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l > r
+  default:
+    return rhs < lhs
+  }
+}
+
 
 //MARK: - Custom types
 typealias BooksArray = [Book]
@@ -17,13 +37,13 @@ class Library: BookDelegate {
     var isLibraryChanged = false
     
     //MARK: - Initializer
-    init (json: NSData) {
+    init (json: Data) {
         // Getting JSON object from a JSON file
         if let jsonArray = try? JSONManager.loadFromData(json) {
             
             // Retrieve favorite books from persistant storage
-            let userDefaults = NSUserDefaults.standardUserDefaults()
-            let favoritesArray = userDefaults.arrayForKey(favoritesUserDefaultsKey) as? [String]
+            let userDefaults = UserDefaults.standard
+            let favoritesArray = userDefaults.array(forKey: favoritesUserDefaultsKey) as? [String]
             
             // Add favorite group to the dictionary
             dictionary[favoritesTag] = BooksArray()
@@ -33,21 +53,21 @@ class Library: BookDelegate {
                 
                 // if the format of the JSON object is correct a new book is created
                 if let title = dict["title"] as? String,
-                    tagsString = dict["tags"] as? String,
-                    authorsString = dict["authors"] as? String,
-                    imageURL = dict["image_url"] as? String,
-                    docURL = dict["pdf_url"] as? String {
+                    let tagsString = dict["tags"] as? String,
+                    let authorsString = dict["authors"] as? String,
+                    let imageURL = dict["image_url"] as? String,
+                    let docURL = dict["pdf_url"] as? String {
                     
                     // Converts authos and tags strings to arrays
-                    let authors = authorsString.componentsSeparatedByString(", ")
-                    let tags = tagsString.componentsSeparatedByString(", ")
+                    let authors = authorsString.components(separatedBy: ", ")
+                    let tags = tagsString.components(separatedBy: ", ")
                     
                     // Check if the image and document string value are valid URLs
-                    if let image = NSURL(string: imageURL), document = NSURL(string: docURL) {
+                    if let image = URL(string: imageURL), let document = URL(string: docURL) {
                         let book = Book(title: title, authors: authors, tags: tags, image: image, document: document)
 
                         // Check if book was a previously saved as favorite
-                        if let favoritesArray = favoritesArray where favoritesArray.contains(book.proxyForComparasion) {
+                        if let favoritesArray = favoritesArray , favoritesArray.contains(book.proxyForComparasion) {
                             book.isFavorite = true
                             dictionary[favoritesTag]?.append(book)
                         }
@@ -60,7 +80,7 @@ class Library: BookDelegate {
                         
                         // Add the book to all the tag groups that it belongs
                         for each in tags {
-                            if self.tags.indexOf(each) == nil {
+                            if self.tags.index(of: each) == nil {
                                 self.tags.append(each)
                                 dictionary[each] = [book]
                             } else {
@@ -75,7 +95,7 @@ class Library: BookDelegate {
             sort()
             
             // Insert favorite tag to the first position of the tags array
-            tags.insert(favoritesTag, atIndex: 0)
+            tags.insert(favoritesTag, at: 0)
         }
     }
     
@@ -93,7 +113,7 @@ class Library: BookDelegate {
         return books.count
     }
     
-    func numberOfBookFromTag(tag: String) -> Int {
+    func numberOfBookFromTag(_ tag: String) -> Int {
         guard let count = dictionary[tag]?.count else {
             return 0
         }
@@ -105,22 +125,22 @@ class Library: BookDelegate {
         return tags[i]
     }
     
-    func getBookAtIndex(index: Int) -> Book {
+    func getBookAtIndex(_ index: Int) -> Book {
         return books[index]
     }
     
-    func getBookFromTag(tag: String, atIndex i: Int) -> Book? {
+    func getBookFromTag(_ tag: String, atIndex i: Int) -> Book? {
         return dictionary[tag]?[i]
     }
     
     // Sorts tags Array, books Array and each array inside dictionary
     func sort() {
-        tags.sortInPlace()
+        tags.sort()
         
-        books.sortInPlace(sortClosure)
+        books.sort(by: sortClosure)
         
         for tag in self.tags {
-            dictionary[tag]?.sortInPlace(sortClosure)
+            dictionary[tag]?.sort(by: sortClosure)
         }
     }
     
@@ -136,13 +156,13 @@ class Library: BookDelegate {
     }
     
     //MARK: - BookDelegate
-    func bookDelegate(book: Book, favoriteValueChanged newValue: Bool) {
+    func bookDelegate(_ book: Book, favoriteValueChanged newValue: Bool) {
         
         // If it is a new favorite book then it is added to the dictionary
         // else it is removed from the dictionary
         if newValue {
             dictionary[favoritesTag]?.append(book)
-            dictionary[favoritesTag]?.sortInPlace(sortClosure)
+            dictionary[favoritesTag]?.sort(by: sortClosure)
         } else {
             dictionary[favoritesTag] = dictionary[favoritesTag]?.filter({ $0 !== book })
         }
@@ -154,8 +174,8 @@ class Library: BookDelegate {
         let favoritesArray = dictionary[favoritesTag]!.map({ favoriteBook in
             favoriteBook.proxyForComparasion
         })
-        let userDefaults = NSUserDefaults.standardUserDefaults()
-        userDefaults.setObject(favoritesArray, forKey: favoritesUserDefaultsKey)
+        let userDefaults = UserDefaults.standard
+        userDefaults.set(favoritesArray, forKey: favoritesUserDefaultsKey)
     }
     
 

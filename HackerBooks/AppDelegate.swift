@@ -5,10 +5,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
 
-    func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         
         do {
-            window = UIWindow(frame: UIScreen.mainScreen().bounds)
+            window = UIWindow(frame: UIScreen.main.bounds)
             
             // Get JSON file with books data from local or remote
             if let json = try DataDownloader.downloadApplicationData() {
@@ -22,7 +22,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 
                 // If current device is an iPad then a SplitViewController is displayed
                 // else LibraryViewController would be the main View Controller
-                if UIDevice.currentDevice().userInterfaceIdiom == .Pad {
+                if UIDevice.current.userInterfaceIdiom == .pad {
                     
                     // We need a BookViewController to display at the rigt side of the
                     // SplitViewController
